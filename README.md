@@ -1,6 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## How to get started
+## Reittihaku - koodihaaste
+
+Haaste on toteutettu reactilla. Aika loppui vähän kesken ja alun suunnittelu jäikin suurelta osin ulkoasun puolesta ainoastaan suunnitelmaksi. Reitit eivät ole suinkaan nopeimpia, mutta jokaisen kuljettavaan matkaan pitäisi löytyä reitti. Osallistun mielelläni niin kilpailuun, kuin myös arvontaan, sekä minuun saa ottaa muutenkin yhteyttä. 
+
+Koodihaaste oli tosi hauska tehdä!
 
 In the project directory, you can run:
 
