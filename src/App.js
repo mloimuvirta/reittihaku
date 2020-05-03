@@ -42,17 +42,14 @@ var samassa = false;
   for (var i=0; i < data.linjastot.keltainen.length; i++) {
     if(data.linjastot.keltainen[i] === this.state.alku) {
       aloituspaikka = 'keltainen';
-      console.log('keltainen'+i);
     }
     if(data.linjastot.keltainen[i] === this.state.loppu) {
       loppupaikka = 'keltainen';
-      console.log('LOPPU keltainen'+i);
     }
   }}
 
   if(data.linjastot.keltainen.includes(this.state.alku) && 
     data.linjastot.keltainen.includes(this.state.loppu)) {
-      console.log("MOLEMMAT KELTAISESSA");
       samassa = true;
     this.calculateRoute(aloituspaikka, loppupaikka);
     }
@@ -65,17 +62,14 @@ var samassa = false;
   for (var j=0; j < data.linjastot.punainen.length; j++) {
     if(data.linjastot.punainen[j] === this.state.alku) {
       aloituspaikka = 'punainen';
-      console.log('punainen'+j);
     }
     if(data.linjastot.punainen[j] === this.state.loppu) {
       loppupaikka = 'punainen';
-      console.log('LOPPU punainen'+j);
     }
     
   }
   if(data.linjastot.punainen.includes(this.state.alku) && 
     data.linjastot.punainen.includes(this.state.loppu)) {
-      console.log("MOLEMMAT PUNAISESSA");
       samassa = true;
       this.calculateRoute(aloituspaikka, loppupaikka);
     }
@@ -140,14 +134,29 @@ if (samassa === false) {
    var summa =0;
    var ap;
    var lp;
+   var ap1;
+   var lp1;
    var reitti;
-  var k;
-  var i;
-  var linja;
+   var reitti1;
+   var k;
+   var i;
+   var linja;
+   var j;
+   var l;
+   var m;
+   var yksi= true;
+   var summa1=0;
  
   console.log(alkuLinja);
   console.log(loppuLinja);
   console.log("pääset perille käyttäen linjaa "+ alkuLinja);
+
+
+  /* 
+  
+  KAIKKI KELTAISTEN REITTIEN VARIAATIOT
+  
+  */
   if(alkuLinja === 'keltainen') {
     
     ap = data.linjastot.keltainen.indexOf(this.state.alku);
@@ -164,6 +173,175 @@ if (samassa === false) {
     }}
     console.log("koko reitin kesto on "+summa);
   }
+  //Alku on kolteisessa ja loput muualla
+  if(alkuLinja === 'keltainen' && loppuLinja !== 'keltainen') {
+    alert('just näin');
+    alert(loppuLinja);
+
+    //Loppulinja sininen
+    if(loppuLinja === 'sininen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.keltainen.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.sininen.includes(data.linjastot.keltainen[k])){
+          //Keltainen reitti
+          ap = data.linjastot.keltainen.indexOf(this.state.alku);
+          lp = data.linjastot.keltainen.indexOf(data.linjastot.keltainen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.keltainen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.keltainen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) || 
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //sininen reitti
+          ap1 = data.linjastot.sininen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.sininen.indexOf(data.linjastot.keltainen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.sininen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.sininen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+
+    //Loppulinja punainen
+    if(loppuLinja === 'punainen') {
+            //haetaan molemmista yhteinen pysäkki
+            for(k=0; k<data.linjastot.keltainen.length; k++) {
+              if(yksi === true) {
+              if(data.linjastot.punainen.includes(data.linjastot.keltainen[k])){
+                //Keltainen reitti
+                ap = data.linjastot.keltainen.indexOf(this.state.alku);
+                lp = data.linjastot.keltainen.indexOf(data.linjastot.keltainen[k]);
+                if(ap<lp) {
+                  reitti = data.linjastot.keltainen.slice(ap, (lp+1));
+                } else {
+                  reitti = data.linjastot.keltainen.slice(lp, (ap+1));
+                }
+                
+                alert(reitti);
+                for(i=0; i<reitti.length; i++){
+                  for(j=0; j<data.tiet.length; j++) {
+                    if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) || 
+                    (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                      summa = summa + data.tiet[j].kesto;
+                      alert(summa);
+                    }
+                  }
+                }
+                //PUNAINEN REITTI
+                ap1 = data.linjastot.punainen.indexOf(this.state.loppu);
+                lp1 = data.linjastot.punainen.indexOf(data.linjastot.keltainen[k]);
+                if(ap1<lp1) {
+                  reitti1 = data.linjastot.punainen.slice(ap1, (lp1+1));
+                } else {
+                  reitti1 = data.linjastot.punainen.slice(lp1, (ap1+1));
+                }
+                
+                alert(reitti1);
+                for(l=0; l<reitti1.length; l++){
+                  for(m=0; m<data.tiet.length; m++) {
+                    if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+                    (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                      summa = summa + data.tiet[m].kesto;
+                      alert(reitti1 +" ja "+summa);
+                    }
+                  }
+                }
+                alert(summa);
+                
+                yksi = false;
+              }
+            }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+
+    //Loppulinja on vihreä
+    if(loppuLinja === 'vihreä') {
+      for(k=0; k<data.linjastot.keltainen.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.vihreä.includes(data.linjastot.keltainen[k])){
+          //Keltainen reitti
+          ap = data.linjastot.keltainen.indexOf(this.state.alku);
+          lp = data.linjastot.keltainen.indexOf(data.linjastot.keltainen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.keltainen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.keltainen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) || 
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //VIHREÄ REITTI
+          ap1 = data.linjastot.vihreä.indexOf(this.state.loppu);
+          lp1 = data.linjastot.vihreä.indexOf(data.linjastot.keltainen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.vihreä.slice(ap1, (lp1+1));
+          } else if(ap1>lp1 && ap1 === 'J') {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1));
+          } else {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }          
+  }
+
+
+/* 
+
+KAIKKI PUNAISTEN REITTIEN VARIAATIOT
+
+*/
 
   if(alkuLinja === 'punainen') {
     ap = data.linjastot.punainen.indexOf(this.state.alku);
@@ -172,7 +350,8 @@ if (samassa === false) {
     for(k=0; k<reitti.length; k++) {
 
     for(i=0; i<data.tiet.length; i++) {
-      if(data.tiet[i].mista === reitti[k] && data.tiet[i].mihin === reitti[k+1]) {
+      if((data.tiet[i].mista === reitti[k] && data.tiet[i].mihin === reitti[k+1]) || 
+      (data.tiet[i].mista === reitti[k+1] && data.tiet[i].mihin === reitti[k])) {
         summa = summa+ data.tiet[i].kesto;
         linja = 'punainen';
       }
@@ -181,7 +360,177 @@ if (samassa === false) {
     console.log("koko reitin kesto on "+summa);
   }
 
+  //Alku on punaisessa, loput muualla
+  if(alkuLinja === 'punainen' && loppuLinja !== 'punainen') {
+    alert('just näin');
+    alert(loppuLinja);
 
+    //Loppulinja on keltainen
+    if(loppuLinja === 'keltainen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.punainen.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.keltainen.includes(data.linjastot.punainen[k])){
+          //punainen
+          ap = data.linjastot.punainen.indexOf(this.state.alku);
+          lp = data.linjastot.punainen.indexOf(data.linjastot.punainen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.punainen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.punainen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //KELTAINEN REITTI
+          ap1 = data.linjastot.keltainen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.keltainen.indexOf(data.linjastot.punainen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.keltainen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.keltainen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+    
+    //Loppulinja on sininen
+      if(loppuLinja === 'sininen') {
+        //haetaan molemmista yhteinen pysäkki
+        for(k=0; k<data.linjastot.punainen.length; k++) {
+          if(yksi === true) {
+          if(data.linjastot.sininen.includes(data.linjastot.punainen[k])){
+            //PUNAINEN REITTI
+            ap = data.linjastot.punainen.indexOf(this.state.alku);
+            lp = data.linjastot.punainen.indexOf(data.linjastot.punainen[k]);
+            if(ap<lp) {
+              reitti = data.linjastot.punainen.slice(ap, (lp+1));
+            } else {
+              reitti = data.linjastot.punainen.slice(lp, (ap+1));
+            }
+            
+            alert(reitti);
+            for(i=0; i<reitti.length; i++){
+              for(j=0; j<data.tiet.length; j++) {
+                if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+                (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                  summa = summa + data.tiet[j].kesto;
+                  alert(summa);
+                }
+              }
+            }
+            //sininen reitti
+            ap1 = data.linjastot.sininen.indexOf(this.state.loppu);
+            lp1 = data.linjastot.sininen.indexOf(data.linjastot.punainen[k]);
+            if(ap1<lp1) {
+              reitti1 = data.linjastot.sininen.slice(ap1, (lp1+1));
+            } else {
+              reitti1 = data.linjastot.sininen.slice(lp1, (ap1+1));
+            }
+            
+            alert(reitti1);
+            for(l=0; l<reitti1.length; l++){
+              for(m=0; m<data.tiet.length; m++) {
+                if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+                (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                  summa = summa + data.tiet[m].kesto;
+                  alert(reitti1 +" ja "+summa);
+                }
+              }
+            }
+            alert(summa);
+            
+            yksi = false;
+          }
+        }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+
+    //Loppulinja on vihreä
+    if(loppuLinja === 'vihreä') {
+      for(k=0; k<data.linjastot.punainen.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.vihreä.includes(data.linjastot.punainen[k])){
+          //PUNAINEN
+          ap = data.linjastot.punainen.indexOf(this.state.alku);
+          lp = data.linjastot.punainen.indexOf(data.linjastot.punainen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.punainen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.punainen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //VIHREÄ REITTI
+          ap1 = data.linjastot.vihreä.indexOf(this.state.loppu);
+          lp1 = data.linjastot.vihreä.indexOf(data.linjastot.punainen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.vihreä.slice(ap1, (lp1+1));
+          } else if(ap1>lp1 && ap1 === 'J') {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1));
+          } else {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])
+              ) {
+                summa = summa + data.tiet[m].kesto;
+                alert(data.tiet[m].mista +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+               
+  }
+
+
+  /*
+  
+  KAIKKI VIHREIDEN REITTIEN VARIAATIOT
+
+  */
   if(alkuLinja === 'vihreä') {
     ap = data.linjastot.vihreä.indexOf(this.state.alku);
     lp = data.linjastot.vihreä.indexOf(this.state.loppu) +1;
@@ -189,7 +538,8 @@ if (samassa === false) {
     for(k=0; k<reitti.length; k++) {
 
     for(i=0; i<data.tiet.length; i++) {
-      if(data.tiet[i].mista === reitti[k] && data.tiet[i].mihin === reitti[k+1]) {
+      if((data.tiet[i].mista === reitti[k] && data.tiet[i].mihin === reitti[k+1]) || 
+      (data.tiet[i].mista === reitti[k+1] && data.tiet[i].mihin === reitti[k])) {
         summa = summa+ data.tiet[i].kesto;
         linja = 'vihreä';
       }
@@ -199,7 +549,171 @@ if (samassa === false) {
     console.log("koko reitin kesto on "+summa);
   }
 
+  //Alkulinja on vihreä, loput on muualla
+  if(alkuLinja === 'vihreä' && loppuLinja !== 'vihreä') {
+    alert('just näin');
+    alert(loppuLinja);
 
+    //Loppulinja on keltainen
+    if(loppuLinja === 'keltainen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.vihreä.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.keltainen.includes(data.linjastot.vihreä[k])){
+          //punainen
+          ap = data.linjastot.vihreä.indexOf(this.state.alku);
+          lp = data.linjastot.vihreä.indexOf(data.linjastot.vihreä[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.vihreä.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.vihreä.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //KELTAINEN REITTI
+          ap1 = data.linjastot.keltainen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.keltainen.indexOf(data.linjastot.vihreä[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.keltainen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.keltainen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+    if(loppuLinja === 'punainen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.vihreä.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.punainen.includes(data.linjastot.vihreä[k])){
+          //vihreä reittin
+          ap = data.linjastot.vihreä.indexOf(this.state.alku);
+          lp = data.linjastot.vihreä.indexOf(data.linjastot.vihreä[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.vihreä.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.vihreä.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) || 
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //PUNAINEN REITTI
+          ap1 = data.linjastot.punainen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.punainen.indexOf(data.linjastot.vihreä[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.punainen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.punainen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+    if(loppuLinja === 'sininen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.vihreä.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.sininen.includes(data.linjastot.vihreä[k])){
+          //PUNAINEN REITTI
+          ap = data.linjastot.vihreä.indexOf(this.state.alku);
+          lp = data.linjastot.vihreä.indexOf(data.linjastot.vihreä[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.vihreä.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.vihreä.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //sininen reitti
+          ap1 = data.linjastot.sininen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.sininen.indexOf(data.linjastot.vihreä[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.sininen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.sininen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+               
+  }
+  
+
+/*
+
+KAIKKI SINISTEN REITTIEN VARIAATIOT
+
+*/
   if(alkuLinja === 'sininen') {
     ap = data.linjastot.sininen.indexOf(this.state.alku);
     lp = data.linjastot.sininen.indexOf(this.state.loppu) +1;
@@ -218,6 +732,160 @@ if (samassa === false) {
 
   if(alkuLinja === 'sininen' && loppuLinja !== 'sininen') {
     alert('just näin');
+    alert(loppuLinja);
+    if(loppuLinja === 'keltainen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.vihreä.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.keltainen.includes(data.linjastot.vihreä[k])){
+          //sininen
+          ap = data.linjastot.sininen.indexOf(this.state.alku);
+          lp = data.linjastot.sininen.indexOf(data.linjastot.sininen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.sininen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.sininen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //KELTAINEN REITTI
+          ap1 = data.linjastot.keltainen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.keltainen.indexOf(data.linjastot.sininen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.keltainen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.keltainen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+    if(loppuLinja === 'punainen') {
+      //haetaan molemmista yhteinen pysäkki
+      for(k=0; k<data.linjastot.vihreä.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.punainen.includes(data.linjastot.vihreä[k])){
+          //vihreä reittin
+          ap = data.linjastot.vihreä.indexOf(this.state.alku);
+          lp = data.linjastot.vihreä.indexOf(data.linjastot.sininen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.sininen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.sininen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) || 
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //PUNAINEN REITTI
+          ap1 = data.linjastot.punainen.indexOf(this.state.loppu);
+          lp1 = data.linjastot.punainen.indexOf(data.linjastot.sininen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.punainen.slice(ap1, (lp1+1));
+          } else {
+            reitti1 = data.linjastot.punainen.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])) {
+                summa = summa + data.tiet[m].kesto;
+                alert(reitti1 +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+    if(loppuLinja === 'vihreä') {
+      for(k=0; k<data.linjastot.sininen.length; k++) {
+        if(yksi === true) {
+        if(data.linjastot.vihreä.includes(data.linjastot.sininen[k])){
+          //PUNAINEN
+          ap = data.linjastot.sininen.indexOf(this.state.alku);
+          lp = data.linjastot.sininen.indexOf(data.linjastot.sininen[k]);
+          if(ap<lp) {
+            reitti = data.linjastot.sininen.slice(ap, (lp+1));
+          } else {
+            reitti = data.linjastot.sininen.slice(lp, (ap+1));
+          }
+          
+          alert(reitti);
+          for(i=0; i<reitti.length; i++){
+            for(j=0; j<data.tiet.length; j++) {
+              if((data.tiet[j].mista === reitti[i] && data.tiet[j].mihin === reitti[i+1]) ||
+              (data.tiet[j].mista === reitti[i+1] && data.tiet[j].mihin === reitti[i])) {
+                summa = summa + data.tiet[j].kesto;
+                alert(summa);
+              }
+            }
+          }
+          //VIHREÄ REITTI
+          ap1 = data.linjastot.vihreä.indexOf(this.state.loppu);
+          lp1 = data.linjastot.vihreä.indexOf(data.linjastot.sininen[k]);
+          if(ap1<lp1) {
+            reitti1 = data.linjastot.vihreä.slice(ap1, (lp1+1));
+          } else if(ap1>lp1 && ap1 === 'J') {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1));
+          } else {
+            reitti1 = data.linjastot.vihreä.slice(lp1, (ap1+1));
+          }
+          
+          alert(reitti1);
+          for(l=0; l<reitti1.length; l++){
+            for(m=0; m<data.tiet.length; m++) {
+              if((data.tiet[m].mista === reitti1[l] && data.tiet[m].mihin === reitti1[l+1]) ||
+              (data.tiet[m].mista === reitti1[l+1] && data.tiet[m].mihin === reitti1[l])
+              ) {
+                summa = summa + data.tiet[m].kesto;
+                alert(data.tiet[m].mista +" ja "+summa);
+              }
+            }
+          }
+          alert(summa);
+          
+          yksi = false;
+        }
+      }}
+      alert("alkulinja on "+alkuLinja+ " loppulinja on "+loppuLinja);
+    }
+               
   }
 
   this.setState({search: false, route: true, linjasto: linja, aikataulu: summa});
@@ -246,8 +914,12 @@ handleChangeEnd(event) {
 
     return (<div className="App">
       <div className="App-header">
-        <h1>REITTIHAKU</h1>
-        <img src={logo} className="App-logo" alt="logo" />
+        <div className="otsikko_logo">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>REITTIHAKU</h1>
+          
+        </div>
+        
         
         {this.state.search ? <div className="dd">
           <p>
@@ -267,6 +939,7 @@ handleChangeEnd(event) {
 
         {this.state.route ? 
         <div className="routes">
+          <p>Näin koronan vuoksi jotkut linjat tulee ajaa pidemmän reitin kautta, pahoittelemme</p>
           <p>you want to go to {this.state.alku} to {this.state.loppu}, ok</p>
           <p>meet linjaa {this.state.linjasto} ja aikaa siihen kuluu {this.state.aikataulu} minuuttia.</p>
           
